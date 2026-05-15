@@ -2,15 +2,7 @@
 
 ### Introduction
 
-Detecting flows with persistently high round-trip times (RTTs) is critical for load balancing, fault diagnosis, and anomaly detection in high-speed networks. 
-Existing approaches either collect per-flow RTT samples for offline analysis or employ sketches to summarize RTT information in the data plane. 
-However, these methods suffer from unacceptable communication overhead and latency, or fail to capture the packet-acknowledgment dependencies essential for RTT measurement.
-In this paper, we present Chronus, a sketch-based framework for accurate and memory-efficient high-RTT flow detection at line rate. 
-Chronus incorporates two key components. 
-The Approximate RTT Collector leverages lightweight timeouts to generate available RTT samples while recycling outdated records to conserve memory. 
-The RTT-Sketch, tailored for highly skewed RTT distributions, employs a multi-level bucket array and a probabilistic replacement strategy that preferentially evicts low-RTT flows, thereby retaining more high-RTT flows.
-We further prove that Chronus provides unbiased RTT estimation and derive tight bounds on relative error and misreport probability. 
-Finally, we implement Chronus on both CPU and P4 switch platforms.
+High-Cumulative-RTT flow detection (HCRD) is essential for fine-grained network management and security, as it identifies flows that consistently incur high round-trip times (RTTs), a key indicator of sustained attacks or persistent network congestion. Existing approaches either cannot provide lightweight detection or rely on assumptions that do not reflect practical RTT characteristics. In this paper, we present Chronus, a novel sketchbased framework that tackles these challenges by exploiting the highly skewed nature of RTT distributions at both packet and flow levels. Our key observation is that the vast majority of RTT samples and flows exhibit normal latency, whereas only a small fraction of flows accumulate persistently high RTTs. Guided by this insight, Chronus integrates abnormal RTT filtering, invalid record reclamation, and RTT-aware tracking, enabling reliable RTT sample construction, efficient memory reuse, and preferential retention of high-cumulative-RTT flows under extreme memory budgets (e.g., 64KB). We provide theoretical analysis and implement Chronus on CPU and P4. Experiments on real traffic traces show that Chronus improves F1-score by up to 0.778× and reduces measurement error by up to 96.636% over state-of-the-art solutions.
 
 ### About this repo
 
